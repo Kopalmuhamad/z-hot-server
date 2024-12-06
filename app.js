@@ -10,6 +10,7 @@ import { v2 as cloudinary } from "cloudinary";
 import authRouter from "./routes/authRouter.js";
 import articleRouter from "./routes/articleRouter.js";
 import productRouter from "./routes/productRouter.js";
+import imageRouter from "./routes/imageSliderRouter.js";
 
 import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 
@@ -41,6 +42,7 @@ app.use(ExpressMongoSanitize());
 app.use("/api/auth", authRouter);
 app.use("/api/article", articleRouter);
 app.use("/api/product", productRouter);
+app.use("/api/imageSlider", imageRouter);
 
 app.use(notFound);
 app.use(errorHandler);
