@@ -1,20 +1,18 @@
 import express from "express";
-
 import { upload } from "../utils/uploadFileHandler.js";
-
 import {
   createProduct,
   deleteProduct,
   getProduct,
   getProducts,
-  updateProduct,
+  udpateProduct,
 } from "../controllers/productController.js";
-
 import {
   protectedMiddleware,
   adminMiddleware,
 } from "../middlewares/authMiddleware.js";
 
+// Create an Express router instance
 const router = express.Router();
 
 router.post(
@@ -27,16 +25,21 @@ router.post(
 
 router.get("/", getProducts);
 
-router.get("/:id", getProduct);
+router.get("/:productId", getProduct);
 
 router.put(
-  "/:id",
+  "/:productId",
   protectedMiddleware,
   adminMiddleware,
   upload.array("image", 5),
-  updateProduct
+  udpateProduct
 );
 
-router.delete("/:id", protectedMiddleware, adminMiddleware, deleteProduct);
+router.delete(
+  "/:productId",
+  protectedMiddleware,
+  adminMiddleware,
+  deleteProduct
+);
 
 export default router;
