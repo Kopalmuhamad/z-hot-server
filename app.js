@@ -36,7 +36,7 @@ app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://excelent-car.vercel.app"],
+    origin: ["http://localhost:5173", "http://localhost:5173"],
     credentials: true,
   })
 ); // Enable CORS for specified origins
