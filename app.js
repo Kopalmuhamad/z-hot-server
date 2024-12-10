@@ -38,8 +38,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://z-hots.vercel.app",
-      "https://z-hot-eta.vercel.app",
+      "https://z-hot.vercel.app",
     ],
     credentials: true,
   })
