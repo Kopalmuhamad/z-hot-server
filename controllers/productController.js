@@ -85,23 +85,21 @@ export const createProduct = asyncHandler(async (req, res) => {
 });
 
 export const getProducts = asyncHandler(async (req, res) => {
-  const { category, page, limit, name } = req.query;
+  const { category, page, limit, name, tag } = req.query;
 
   const query = {};
 
-  // Jika ada parameter category, kita akan memeriksa apakah itu ID atau nama kategori
+  // Filter berdasarkan kategori jika ada query 'category'
   if (category) {
-    // Cek apakah category adalah ID (misalnya, panjangnya 24 karakter seperti ObjectId MongoDB)
     if (category.match(/^[0-9a-fA-F]{24}$/)) {
       query.category = category; // Jika category adalah ID, gunakan langsung
     } else {
-      // Jika bukan ID, anggap sebagai nama kategori dan cari kategori berdasarkan nama
       const categoryDoc = await Category.findOne({
-        name: { $regex: category, $options: "i" }, // Pencarian nama kategori case-insensitive
+        name: { $regex: category, $options: "i" }, // Pencarian kategori berdasarkan nama
       });
 
       if (categoryDoc) {
-        query.category = categoryDoc._id; // Menggunakan ID kategori untuk filter produk
+        query.category = categoryDoc._id; // Menggunakan ID kategori
       } else {
         return res.status(404).json({
           success: false,
@@ -114,6 +112,13 @@ export const getProducts = asyncHandler(async (req, res) => {
   // Filter berdasarkan nama produk jika ada query 'name'
   if (name) {
     query.name = { $regex: name, $options: "i" }; // Filter produk dengan nama tertentu
+  }
+
+  // Filter berdasarkan tag jika ada query 'tag'
+  if (tag) {
+    // Jika ada tag, pecah menjadi array berdasarkan koma, kemudian filter berdasarkan tag
+    const tagsArray = tag.split(",").map((t) => t.trim().toLowerCase());
+    query.tag = { $in: tagsArray }; // Menggunakan operator MongoDB $in untuk mencari produk dengan tag yang sesuai
   }
 
   let productsQuery = Product.find(query).populate({
