@@ -36,7 +36,11 @@ app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://z-hots.vercel.app",
+      "https://z-hot-eta.vercel.app",
+    ],
     credentials: true,
   })
 ); // Enable CORS for specified origins
