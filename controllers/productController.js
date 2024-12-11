@@ -202,15 +202,23 @@ export const udpateProduct = asyncHandler(async (req, res) => {
     }
 
     let newCategory = [];
-
-    if (category && category.length > 0) {
-      newCategory = category.split(",");
+    if (category) {
+      // Jika `category` adalah string, pecah menjadi array
+      if (typeof category === "string") {
+        newCategory = category.split(",");
+      } else if (Array.isArray(category)) {
+        // Jika `category` adalah array, gunakan langsung
+        newCategory = category;
+      }
     }
 
     let newTag = [];
-
-    if (tag && tag.length > 0) {
-      newTag = tag.split(",");
+    if (tag) {
+      if (typeof tag === "string") {
+        newTag = tag.split(",");
+      } else if (Array.isArray(tag)) {
+        newTag = tag;
+      }
     }
 
     product.name = name || product.name;
