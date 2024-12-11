@@ -246,7 +246,7 @@ export const udpateProduct = asyncHandler(async (req, res) => {
 export const deleteProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
 
-  const product = await Product.fingdByIdAndDelete(productId);
+  const product = await Product.findByIdAndDelete(productId);
 
   if (!product) {
     res.status(404);
